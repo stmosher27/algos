@@ -31,7 +31,19 @@ class QuickSort
   end
 
   def self.partition(array, start, length, &prc)
+    prc ||= Proc.new { |el1, el2| el1 <=> el2 }
 
+    i = start
+    pivot = array[start]
+
+    ((start + 1)...(start + length)).each do |j|
+      if prc.call(pivot, array[j]) > 0
+        array[j], array[i + 1] = array[i + 1], array[j]
+        i += 1
+      end
+    end
+    array[start], array[i] = array[i], array[start]
+    i
   end
 end
 
