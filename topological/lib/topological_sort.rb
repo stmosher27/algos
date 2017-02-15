@@ -28,3 +28,25 @@ def topological_sort(vertices)
   end
   sorted
 end
+
+def topological_sort(vertices)
+  ordering = []
+  explored = Set.new
+
+  vertices.each do |vertex|
+    dfs!(vertex, explored, ordering) unless explored.include?(vertex)
+  end
+
+  ordering
+end
+
+def dfs!(vertex, explored, ordering)
+  explored.add(vertex)
+
+  vertex.out_edges.each do |edge|
+    new_vertex = edge.to_vertex
+    dfs!(new_vertex, explored, ordering) unless explored.include?(new_vertex)
+  end
+
+  ordering.unshift(vertex)
+end
